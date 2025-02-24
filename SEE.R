@@ -12,7 +12,7 @@ tidy <- ExamplePats
 colnames(tidy) <- c("pnr", "eksd", "perday", "ATC", "dur_original")
 tidy$eksd <- mdy(tidy$eksd)
 
-arg1="medA"
+arg1 = "medA"
 See<- function(arg1){
   C09CA01 <- tidy[which(tidy$ATC == arg1),]
   # Take a random sequence of consecutive prescription in the dataset
@@ -45,7 +45,7 @@ See<- function(arg1){
   m1<-table(Drug_see_p1$pnr)
   plot(m1)
   ni<-max(dfper$x)
-  Drug_see_p2<- Drug1_see_p1[which(Drug_see_p1$event.interval<=ni),]
+  Drug_see_p2<- Drug_see_p1[which(Drug_see_p1$event.interval<=ni),]
   d<-density(log(as.numeric(Drug_see_p2$event.interval)))
   plot(d, main="Log(event interval)")
   x1<- d$x
@@ -82,7 +82,7 @@ See<- function(arg1){
   colnames(nif)<-c("Cluster","Minimum","Maximum","Median")
   nif$Median<- ifelse(is.infinite(nif$Median) & nif$Median<0, 0, nif$Median)
   nif<- nif[which(nif$Median>0),]
-  results<-Drug1_see_p1 %>% cross_join(nif) %>% mutate(Final_cluster = ifelse(event.interval>=Minimum & event.interval<= Maximum, Cluster, NA))
+  results<-Drug_see_p1 %>% cross_join(nif) %>% mutate(Final_cluster = ifelse(event.interval>=Minimum & event.interval<= Maximum, Cluster, NA))
   results = results[which(!is.na(results$Final_cluster)),]
   results$Median<-exp(results$Median)
   results<-results[,c("pnr","Median","Cluster")]
@@ -115,7 +115,7 @@ See<- function(arg1){
   return(Drug_see_p0)
 }
 
-arg1=medA
+arg1="medA"
 
 see_assumption<-function(arg1){
   arg1 <- arg1 %>% arrange(pnr,eksd) %>% 
@@ -129,7 +129,7 @@ see_assumption<-function(arg1){
   Drug_see2$Duration <-Drug_see2$eksd-Drug_see2$prev_eksd
   Drug_see2$p_number <- as.factor(Drug_see2$p_number)
   pp <- ggplot(Drug_see2, aes(x=p_number, y=Duration)) + geom_boxplot() + theme_bw()
- 
+  
   medians_of_medians <- Drug_see2 %>%
     group_by(pnr) %>%
     summarise(median_duration = median(Duration, na.rm = TRUE))
@@ -139,9 +139,6 @@ see_assumption<-function(arg1){
     theme_bw() 
   return(pp)
 }
-
-
- 
 
 medA = See("medA")
 medB = See("medB")
