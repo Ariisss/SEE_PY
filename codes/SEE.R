@@ -121,7 +121,7 @@ see_assumption<-function(arg1){
   arg1 <- arg1 %>% arrange(pnr,eksd) %>% 
     group_by(pnr) %>%  
     dplyr::mutate(prev_eksd = dplyr::lag(eksd, n=1, default =NA))
-  Drug_see2<- arg1 %>% # Replace here
+  Drug_see2<- arg1 %>% 
     group_by(pnr) %>%
     arrange(pnr, eksd) %>% dplyr :: mutate(p_number=seq_along(eksd))
   Drug_see2 <- Drug_see2[which(Drug_see2$p_number>=2),]
