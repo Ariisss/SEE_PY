@@ -37,10 +37,10 @@ See<- function(arg1){
   dfper<-as.data.frame(dfper)
   
   # Retain the 20% of the ECDF
-  dfper <- dfper[which(dfper$y<=0.8),] # Remove the upper 20%? Should this be >=0.8?
+  dfper <- dfper[which(dfper$y<=0.8),]
   max(dfper$x)
   par(mfrow=c(1,2))
-  plot(dfper$x, dfper$y, main = "80% ECDF") # Oh that’s why its <=0.8
+  plot(dfper$x, dfper$y, main = "80% ECDF") 
   plot(x,y, main="100% ECDF")
   m1<-table(Drug_see_p1$pnr)
   plot(m1)
